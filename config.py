@@ -1,6 +1,5 @@
 import os
 
-from instance.config import MOVIE_API_KEY
 
 class Config:
     '''

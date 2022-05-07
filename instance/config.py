@@ -1,2 +1,2 @@
 MOVIE_API_KEY = '978de594cf7efdb49d176d844d42f5b2'
-SECRET_KEY = '<Flask WTF Secret Key>'
+SECRET_KEY = '12345'

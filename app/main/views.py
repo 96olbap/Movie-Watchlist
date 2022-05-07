@@ -2,10 +2,9 @@ from flask import render_template,request,redirect,url_for
 from . import main
 from ..request import get_movies,get_movie, search_movie
 
-from ..models import review
 from .forms import ReviewForm
+from ..models import Review
 
-Review = review.Review
 
 # Views
 @main.route('/')
@@ -14,7 +13,7 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    #Getting popular movies
+    #Getting  movies
     popular_movies = get_movies('popular')
     upcoming_movie = get_movies('upcoming')
     now_showing_movie = get_movies('now_playing')
@@ -24,7 +23,7 @@ def index():
     search_movie = request.args.get('movie_query')
 
     if search_movie:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('.index'))
     else:
         return render_template('index.html', title = title, popular = popular_movies, upcoming = upcoming_movie, now_showing = now_showing_movie)
 
