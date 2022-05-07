@@ -8,7 +8,11 @@ app = create_app('development')
 
 
 manager = Manager(app)
+migrate = Migrate(app,db)
+
 manager.add_command('server', Server)
+manager.add_command('db',MigrateCommand)
+
 @manager.command
 def test():
     """Run the unit tests"""
@@ -20,8 +24,6 @@ def test():
 def make_shell_context():
     return dict(app = app,db = db,User = User, Role = Role)
 
-migrate = Migrate(app,db)
-manager.add_command('db',MigrateCommand)
 
 
 if __name__ == '__main__':

@@ -24,11 +24,10 @@ def index():
     search_movie = request.args.get('movie_query')
 
     if search_movie:
-        return redirect(url_for('.index'))
+        return redirect(url_for('.search',movie_name=search_movie))
     else:
         return render_template('index.html', title = title, popular = popular_movies, upcoming = upcoming_movie, now_showing = now_showing_movie)
 
-    return render_template('index.html', title = title, popular = popular_movies, upcoming = upcoming_movie, now_showing = now_showing_movie)
 
 @main.route('/movie/<int:id>')
 def movie(id):
@@ -38,7 +37,9 @@ def movie(id):
     '''
     movie = get_movie(id)
     title = f'{movie.title}'
-    return render_template('movie.html', title = title, movie = movie)
+    reviews = Review.get_reviews(movie.id)
+    
+    return render_template('movie.html', title = title, movie = movie, reviews = reviews)
 
 @main.route('/search/<movie_name>')
 def search(movie_name):
@@ -61,6 +62,7 @@ def new_review(id):
     if form.validate_on_submit():
         title = form.title.data
         review = form.review.data
+        
         new_review = Review(movie.id, title, movie.poster, review)
         new_review.save_review()
         return redirect(url_for('main.movie',id = movie.id))
